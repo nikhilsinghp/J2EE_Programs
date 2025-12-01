@@ -1,0 +1,113 @@
+package com;
+import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+
+@WebServlet("/register_login")
+public class RegisterAndLoginServlet extends HttpServlet{
+	
+	@Override
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+		 
+		String email = req.getParameter("email");
+		String password = req.getParameter("password");
+		String username = req.getParameter("username");
+		
+		PrintWriter out = res.getWriter();
+		
+		if(email.equals(email)) {
+			if(password.equals(password)) {
+				RequestDispatcher dispatcher = req.getRequestDispatcher("home.html");
+				dispatcher.forward(req, res);
+				out.print("<h1>  "+username+"</h1>");
+			}
+			else {
+				out.print("<h1>Incorrect password</h1>");
+				RequestDispatcher dispatcher = req.getRequestDispatcher("login.html");
+				dispatcher.include(req, res);
+				
+			}
+		}
+		else {
+			out.print("<h1>Email not found</h1>");
+			RequestDispatcher dispatcher = req.getRequestDispatcher("login.html");
+			dispatcher.include(req, res);
+			
+		}
+		
+	}
+
+
+
+	
+		
+		
+	
+	
+    @Override
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+		
+		String firstname = req.getParameter("firstname");
+		String lastname = req.getParameter("lastname");
+		String username= req.getParameter("username");
+		String email = req.getParameter("email");
+		String password = req.getParameter("paswword");
+		String phone = req.getParameter("phone");
+		
+		PrintWriter out= res.getWriter();
+		
+		RequestDispatcher dispatcher = req.getRequestDispatcher("login.html");
+		dispatcher.forward(req, res);
+		
+		//out.print("<h1>FirstName = "+firstname+"</h1>");
+		//out.print("<h1>LastName = "+lastname+"</h1>");
+		//out.print("<h1>UserName = "+username+"</h1>");
+		//out.print("<h1>Email = "+email+"</h1>");
+		//out.print("<h1>Password = "+password+"</h1>");
+		//out.print("<h1>PhoneNo = "+phone+"</h1>");
+		
+		Connection c = null;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			c = DriverManager.getConnection("jdbc:mysql://localhost:3306/register_login_details","root","dbms@123");
+			
+			PreparedStatement ps = c.prepareStatement("insert into userdetails values(?,?,?,?,?,?)");
+			ps.setString(1, firstname);
+			ps.setString(2, lastname);
+			ps.setString(3, username);
+			ps.setString(4,email);
+			ps.setString(5, password);
+			ps.setLong(6, Long.parseLong(phone));
+			
+			ps.execute();
+			
+			out.print("<h1> Data saved</h1>");
+		}catch(SQLException| ClassNotFoundException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(c != null) {
+					c.close();
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		
+	}
+
+
+
+	}
+	
+
+}

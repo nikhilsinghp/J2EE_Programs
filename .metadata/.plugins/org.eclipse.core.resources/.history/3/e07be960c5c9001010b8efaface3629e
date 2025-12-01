@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="save">
+
+<label>Enter username</label>
+<input type="text" name="username">
+
+<label>Enter email</label>
+<input type="email" name="email">
+
+<label>Enter password</label>
+<input type="password" name="password">
+
+<label>Enter phone</label>
+<input type="tel" name="phone">
+
+<input type="submit">
+</form>
+
+</body>
+</html>

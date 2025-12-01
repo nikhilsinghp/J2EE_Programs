@@ -1,0 +1,24 @@
+package com;
+import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
+
+import java.io.*;
+@WebServlet("/save")
+public class SaveServlet extends GenericServlet{
+	@Override
+	public void service(ServletRequest req, ServletResponse res) throws IOException,ServletException{
+		String username= req.getParameter("username");
+		String email = req.getParameter("email");
+		String password = req.getParameter("paswword");
+		String phone = req.getParameter("phone");
+		
+		PrintWriter out= res.getWriter();
+		
+		out.print("<h1>UserName = "+username+"</h1>");
+		out.print("<h1>Email = "+email+"</h1>");
+		out.print("<h1>Password = "+password+"</h1>");
+		out.print("<h1>PhoneNo = "+phone+"</h1>");
+		
+	}
+
+}

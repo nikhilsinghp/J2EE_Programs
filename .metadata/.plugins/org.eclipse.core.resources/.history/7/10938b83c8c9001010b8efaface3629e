@@ -1,0 +1,39 @@
+package com;
+import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
+
+import java.sql.*;
+import java.io.*;
+@WebServlet("/fetch")
+public class FetchServlet extends GenericServlet{
+
+	@Override
+	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+		String username = req.getParameter("username");
+		PrintWriter out = res.getWriter();
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_db","root","dbms@123");
+			
+			PreparedStatement ps = c.prepareStatement("select * from user where username = ?");
+			ps.setString(1, username);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				out.print("<h1>UserName = "+rs.getString("username"+"</h1>"));
+				out.print("<h1>Email = "+rs.getString("email"+"</h1>"));
+				out.print("<h1>Password = "+rs.getString("password"+"</h1>"));
+				out.print("<h1>PhoneNo = "+rs.getLong("phone"+"</h1>"));
+
+
+
+			}
+		}catch(SQLException|ClassNotFoundException e){
+			out.print(e);
+		}
+		
+	}
+	
+
+}

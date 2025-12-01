@@ -1,0 +1,27 @@
+package com;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+
+@WebServlet("/httpdemo")
+public class HttpDemo extends HttpServlet{
+	@Override
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+		PrintWriter out = res.getWriter();
+		
+		out.print("<h1> this is http get method</h1>");
+	}
+	
+	@Override
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+		
+		PrintWriter out = res.getWriter();
+		
+		out.print("<h1> this is post method</h1>");
+	}
+
+}
